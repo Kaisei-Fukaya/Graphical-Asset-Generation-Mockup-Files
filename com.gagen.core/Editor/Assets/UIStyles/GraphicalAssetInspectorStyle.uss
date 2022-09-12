@@ -1,0 +1,151 @@
+.unity-inspector-element__custom-inspector-container{
+	display: flex;
+	flex-direction: column;
+	padding-right: 15px;
+	width: 100%;
+}
+
+#so-group{
+	display: flex;
+	flex-direction: row;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+#so-group > ObjectField{
+	width: 80%;
+}
+
+#gen-button{
+	border-radius: 10px;
+	background-color: #aa6238;
+	color: #ffffff;
+	height: 25px;
+}
+
+#gen-button:hover{
+		background-color: #aa5228;
+}
+
+.output-path-container{
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+.output-path-container > Label{
+	overflow: hidden;
+	left: 0;
+	-unity-overflow-clip-box: padding-box;
+	-unity-text-overflow-position: end;
+	-unity-text-align: middle-left;
+}
+
+.output-path-container > Button{
+
+}
+
+.connections-content{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background-color: rgba(0,0,0,0.05);
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 5px;
+	margin-right: 5px;
+	border-radius: 10px;
+	border-color: rgba(0,0,0,1);
+	border-width: 2px;
+	overflow: hidden;
+}
+
+.connections-content > Label{
+	-unity-text-align: middle-center;
+	background-color: rgba(0,0,0,0.3);
+}
+
+.connections-content-sub{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	width: 100%;
+	padding-left: 5px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.connections-content > .connections-content-sub > VisualElement{
+	display: flex;
+	flex-direction: row;
+	-unity-text-align: middle-center;
+	background-color: rgba(0,0,0,.05);
+	height: 25px;
+	border-width: 2px;
+	border-color: rgba(0,0,0,.2);
+	border-radius: 10px;
+}
+
+.connections-content > VisualElement > PopupField{
+	height: 20px;
+}
+
+.additional-data-content{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding-left: 5px;
+}
+
+.subsection{
+	width:100%;
+	border-width: 2px;
+	border-color: #000000;
+	border-radius: 10px;
+	margin-bottom: 10px;
+	overflow: hidden;
+}
+
+.subsection > Label{
+	color: #ffffff;
+	padding:3px;
+	background-color: var(--gag-colors-grid-light-grey-1);
+}
+
+.subsection > Button{
+	margin: 3px;
+}
+
+.subsection-main > VisualElement{
+	border-radius: 10px;
+	border-color: rgba(0,0,0,.2);
+	border-width: 2px;
+	margin: 5px;
+	overflow: hidden;
+}
+
+.label-content{
+	display: flex;
+	flex-direction: row;
+	align-content: center;
+	justify-content: space-between;
+	-unity-text-align: middle-center;
+	background-color: rgba(0,0,0,.1);
+}
+
+.label-content > Button{
+	border-radius: 50%;
+}
+
+#input-section-container > Label{
+}
+
+#generate-section-container > Label{
+}
+
+#convert-section-container > Label{
+}
+
+#output-section-container > Label{
+}

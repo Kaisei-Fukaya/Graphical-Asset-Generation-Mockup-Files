@@ -1,0 +1,64 @@
+#title
+{
+	background-color: var(--gag-colors-dark-1);
+	align-content: center;
+}
+
+#main
+{
+
+}
+
+#extension
+{
+	padding: 5px;
+}
+
+#input
+{
+
+}
+
+#output
+{
+	
+}
+
+Label
+{
+	-unity-text-align: middle-center;
+}
+
+GraphicalAssetPort
+{
+	display: flex;
+	flex-direction: row;
+	align-self: stretch;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+GraphicalAssetPort > .port-Label
+{
+	flex-direction: column;
+}
+
+.port-container
+{
+	flex-direction: row;
+}
+
+GraphicalAssetPort > VisualElement > Port
+{
+
+}
+
+.train-port, .gen-port
+{
+	height: 100%;
+}
+
+GraphicalAssetPort > VisualElement > Port > Label
+{
+	display: none;
+}

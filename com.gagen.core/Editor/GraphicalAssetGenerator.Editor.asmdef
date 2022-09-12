@@ -1,0 +1,16 @@
+{
+    "name": "GraphicalAssetGenerator.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:99ac70f03090e1542b720f2645b99798"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
