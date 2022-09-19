@@ -11,4 +11,11 @@ The stand-alone interface can be downloaded [here](https://github.com/Kaisei-Fuk
 Once downloaded, extract the zip file in a location of your choosing such as your desktop. To run the application double click the {...exe} file. You may see a warning, click yes to run.
 
 ## Unity interfaces
-The Unity interfaces come as a package. Ensure that you have a version of Unity 2020.3 or greater installed, as there are no guarantees this package will work with older versions. To install, open Unity and go to "Window > Package Manager" on the toolbar, from the package manager, click the plus icon and choose "Add package from git URL...". Then paste this URL into the search bar: 
+The Unity interfaces come as a package. Ensure that you have a version of Unity 2020.3 or greater installed, as there are no guarantees this package will work with older versions. 
+
+To install, create a new project and download the files from here:
+
+Extract the "com.gagen.core" folder and place it within the "Packages" folder at the root of your project.
+
+Alternatively, if you have GIT installed, open Unity and go to "Window > Package Manager" on the toolbar, from the package manager, click the plus icon and choose "Add package from git URL...". Then paste this URL into the search bar: 
+https://github.com/Kaisei-Fukaya/Graphical-Asset-Generation-Mockup-Files.git?path=/com.gagen.core
