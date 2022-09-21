@@ -56,7 +56,7 @@ namespace GAGen.Data.Utils
             get
             {
                 //"Packages/com.gagen.core/"
-                return "Assets/com.gagen.core/";
+                return "Packages/com.gagen.core/";
             }
         }
 
