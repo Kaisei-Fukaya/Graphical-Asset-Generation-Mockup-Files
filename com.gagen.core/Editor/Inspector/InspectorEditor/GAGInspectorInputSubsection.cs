@@ -1,5 +1,6 @@
 using GAGen.Data;
 using GAGen.Graph;
+using GAGen.Graph.Elements;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace GAGen.Inspector
 {
     public class GAGInspectorInputSubsection : GAGInspectorSubsection
     {
-        public GAGInspectorInputSubsection(GraphicalAssetGeneratorInspector mainInspector, DataRetriever dataRetriever, string[] folders = null, bool isOutput = false, string title = "", string name = "") : base(mainInspector, dataRetriever, folders, isOutput, title, name)
+        public GAGInspectorInputSubsection(GAGenDataInspector mainInspector, DataRetriever dataRetriever, Button addButton, string[] folders = null, bool isOutput = false, string title = "", string name = "") : base(mainInspector, dataRetriever, addButton, folders, isOutput, title, name)
         {
 
         }
@@ -28,13 +29,21 @@ namespace GAGen.Inspector
                 if (!_mainInspector.proxyNodes.ContainsKey(node))
                 {
                     GraphViewNode pNode = _mainInspector.CreateProxyNode(node.NodeType);
+                    if (node.AdditionalSettings != null)
+                    {
+                        pNode.LoadSettings(node.AdditionalSettings);
+                        pNode.Draw();
+                    }
+                    pNode.onSettingEdit += _mainInspector.ConsolidateChangesAndUpdateUI;
                     _mainInspector.proxyNodes.Add(node, pNode);
                 }
                 nodeDataContainer.Add(CreateLabelGroup(node));
                 nodeDataContainer.Add(CreatePathGroup(node));
                 nodeDataContainer.Add(CreateAdditionalDataGroup(node));
+                nodeDataContainer.Add(CreateOutputsGroup(node));
                 mainContainer.Add(nodeDataContainer);
             }
+            mainContainer.Add(_addButton);
         }
 
         VisualElement CreatePathGroup(GAGenNodeData node)
@@ -50,28 +59,38 @@ namespace GAGen.Inspector
                 pathGroup.AddToClassList("output-path-container");
                 Label pathLabel = new Label();
                 pathLabel.text = node.AdditionalSettings.i_inputPaths[i];
-                pathLabel.tooltip = pathLabel.text;
+                pathGroup.tooltip = pathLabel.text;
 
                 Button openPathPickerButton = new Button();
                 openPathPickerButton.text = "...";
-                openPathPickerButton.clicked += () => OpenPathPicker(node.AdditionalSettings.i_inputPaths, iteration, pathLabel);
+                openPathPickerButton.clicked += () => OpenPathPicker(node.AdditionalSettings.i_inputPaths, iteration, pathLabel, pathGroup, node);
                 openPathPickerButton.tooltip = "Select a folder to pull input data from.";
+
+                InputNode pNode = (InputNode)_mainInspector.proxyNodes[node];
+                PopupField<string> popupField = pNode.GetPopupField();
 
                 pathGroup.Add(pathLabel);
                 pathGroup.Add(openPathPickerButton);
+                if(popupField != null)
+                {
+                    pathGroup.Add(popupField);
+                }
                 group.Add(pathGroup);
             }
             return group;
         }
 
-        public void OpenPathPicker(List<string> paths, int index, Label pathLabel)
+        public void OpenPathPicker(List<string> paths, int index, Label pathLabel, VisualElement pathLabelContainer, GAGenNodeData node)
         {
             if (paths == null)
                 return;
-            Debug.Log($"count: {paths.Count}, index: {index}");
-            paths[index] = EditorUtility.OpenFolderPanel("Output Folder", "Assets", "");
+            //Debug.Log($"count: {paths.Count}, index: {index}");
+            if (node.AdditionalSettings.i_chosenInputMode == 1)
+                paths[index] = EditorUtility.OpenFolderPanel("Data Source", "Assets", "");
+            else
+                paths[index] = EditorUtility.OpenFilePanel("Data Source", "Assets", "");
             pathLabel.text = paths[index];
-            pathLabel.tooltip = pathLabel.text;
+            pathLabelContainer.tooltip = pathLabel.text;
         }
     }
 }

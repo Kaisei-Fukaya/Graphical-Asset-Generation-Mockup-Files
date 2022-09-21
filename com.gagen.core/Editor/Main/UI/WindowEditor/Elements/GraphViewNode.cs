@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using GAGen.Data;
 using GAGen.Graph.Elements;
+using GAGen.Data.Utils;
 
 namespace GAGen.Graph
 {
@@ -27,6 +28,23 @@ namespace GAGen.Graph
         protected List<GraphicalAssetPort> _outgoingPorts;
         protected List<GraphicalAssetPort> _ingoingPorts;
 
+        public List<GraphicalAssetPort> OutgoingPorts
+        {
+            get
+            {
+                return _outgoingPorts;
+            }
+        }
+
+        public List<GraphicalAssetPort> IngoingPorts
+        {
+            get
+            {
+                return _ingoingPorts;
+            }
+        }
+
+
         public delegate void EventTrigger();
         public event EventTrigger onSettingEdit;
 
@@ -36,7 +54,7 @@ namespace GAGen.Graph
             NodeName = NodeType.ToString();
             Text = "Hello world!";
             SetPosition(new Rect(position, Vector2.zero));
-            styleSheets.Add((StyleSheet)AssetDatabase.LoadAssetAtPath("Packages/com.gagen.core/Editor/Assets/UIStyles/GraphicalAssetDefaultNodeStyle.uss", typeof(StyleSheet)));
+            styleSheets.Add((StyleSheet)AssetDatabase.LoadAssetAtPath($"{GAGenDataUtils.BasePath}Editor/Assets/UIStyles/GraphicalAssetDefaultNodeStyle.uss", typeof(StyleSheet)));
         }
 
         protected void CallSettingsEditEvent()
@@ -47,6 +65,8 @@ namespace GAGen.Graph
         public virtual void Draw()
         {
             extensionContainer.Clear();
+            inputContainer.Clear();
+            outputContainer.Clear();
             //Title
             //Label nameText = new Label()
             //{
@@ -77,6 +97,8 @@ namespace GAGen.Graph
 
         public virtual VisualElement DrawAdditionalSettings()
         {
+            if (extensionContainer.childCount < 1)
+                return null;
             return extensionContainer;
         }
 
@@ -184,12 +206,12 @@ namespace GAGen.Graph
                 Edge connectedEdge = port.GetConnectedEdge(isTrainMode);
                 if(connectedEdge == null)
                 {
-                    outgoingConnections.Add(new Data.ConnectionData("EMPTY", 0, ID, port.PortType));
+                    outgoingConnections.Add(new Data.ConnectionData("EMPTY", 0, 0, ID, port.PortType));
                     continue;
                 }
                 GraphViewNode otherNode = connectedEdge.input.node as GraphViewNode;
                 int indexOfOtherPort = otherNode.GetPorts(true).IndexOf(otherNode.GetPorts(true).Where(x => x.GetPort(isTrainMode) == connectedEdge.input).FirstOrDefault());
-                outgoingConnections.Add(new Data.ConnectionData(otherNode.ID, indexOfOtherPort, ID, port.PortType));
+                outgoingConnections.Add(new Data.ConnectionData(otherNode.ID, indexOfOtherPort, _outgoingPorts.IndexOf(port), ID, port.PortType));
             }
             return outgoingConnections;
         }
@@ -205,12 +227,12 @@ namespace GAGen.Graph
                 Edge connectedEdge = port.GetConnectedEdge(isTrainMode);
                 if (connectedEdge == null)
                 {
-                    ingoingConnections.Add(new Data.ConnectionData("EMPTY", 0, ID, port.PortType));
+                    ingoingConnections.Add(new Data.ConnectionData("EMPTY", 0, 0, ID, port.PortType));
                     continue;
                 }
                 GraphViewNode otherNode = connectedEdge.output.node as GraphViewNode;
                 int indexOfOtherPort = otherNode.GetPorts(false).IndexOf(otherNode.GetPorts(false).Where(x => x.GetPort(isTrainMode) == connectedEdge.output).FirstOrDefault());
-                ingoingConnections.Add(new Data.ConnectionData(otherNode.ID, indexOfOtherPort, ID, port.PortType));
+                ingoingConnections.Add(new Data.ConnectionData(otherNode.ID, indexOfOtherPort, _ingoingPorts.IndexOf(port), ID, port.PortType));
             }
             return ingoingConnections;
         }
@@ -233,18 +255,20 @@ namespace GAGen.Graph
         Grammar,
         StyleTransfer2D,
         StyleTransfer3D,
-        PhotoToMesh,
-        SketchToMesh,
-        TextToImage,
+        MeshFromPhoto,
+        MeshFromSketch,
+        ImageFromText,
         TexturedMeshSplitter,
         TexturedMeshCombiner,
         Output,
         Labeller,
         ImageInput,
         TextInput,
+        TexturedMeshInput,
+        MeshInput,
         MeshGenerator,
         VoxelGenerator,
-        RandomNumber,
+        NumberInput,
         ObjectDistributor
     }
 
@@ -254,6 +278,7 @@ namespace GAGen.Graph
         VectorGraphic,
         Mesh,
         TexturedMesh,
+        TexturedMeshSet,
         PointCloud,
         Voxel,
         Graph,

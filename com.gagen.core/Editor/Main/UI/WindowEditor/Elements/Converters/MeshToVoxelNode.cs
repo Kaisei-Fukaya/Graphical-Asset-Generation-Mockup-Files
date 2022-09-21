@@ -11,6 +11,7 @@ namespace GAGen.Graph.Elements
         {
             NodeType = GANodeType.MeshToVoxel;
             base.Initialise(position);
+            NodeName = "Mesh to Voxel";
             _inputPortType = GAPortType.Mesh;
             _outputPortType = GAPortType.Voxel;
         }

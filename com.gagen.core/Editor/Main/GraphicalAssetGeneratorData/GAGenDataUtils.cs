@@ -14,26 +14,28 @@ namespace GAGen.Data.Utils
         {
             { GANodeType.ImageInput,            "Image Input" },
             { GANodeType.TextInput,             "Text Input" },
+            { GANodeType.TexturedMeshInput,     "Textured Mesh Input" },
+            { GANodeType.MeshInput,             "Mesh Input" },
+            { GANodeType.NumberInput,           "Number Input" },
             { GANodeType.Grammar,               "Grammar" },
-            { GANodeType.PhotoToMesh,           "Photo to Mesh" },
-            { GANodeType.SketchToMesh,          "Sketch to Mesh" },
-            { GANodeType.Interpolator2D,        "Interpolator" },
+            { GANodeType.MeshFromPhoto,         "Mesh from Photo" },
+            { GANodeType.MeshFromSketch,        "Mesh from Sketch" },
+            { GANodeType.Interpolator3D,        "Interpolator" },
             { GANodeType.Labeller,              "Labeller" },
-            { GANodeType.VoxelToMesh,           "Marching Cubes" },
+            { GANodeType.VoxelToMesh,           "Voxel to Mesh" },
             { GANodeType.MeshGenerator,         "Mesh Generator" },
             { GANodeType.Parametriser,          "Parametriser" },
             { GANodeType.PointCloudToMesh,      "Point-cloud to Mesh" },
-            { GANodeType.RandomNumber,          "Random Number" },
             { GANodeType.Slicer,                "Slicer" },
             { GANodeType.StyleTransfer2D,       "2D Style Transfer" },
             { GANodeType.StyleTransfer3D,       "3D Style Transfer" },
-            { GANodeType.TextToImage,           "Text to Image" },
+            { GANodeType.ImageFromText,         "Image from Text" },
             { GANodeType.TexturedMeshSplitter,  "Textured Mesh Splitter" },
             { GANodeType.TexturedMeshCombiner,  "Textured Mesh Combiner" },
             { GANodeType.BitmapToVector,        "Bitmap to Vector" },
             { GANodeType.VectorToBitmap,        "Vector to Bitmap" },
             { GANodeType.VoxelGenerator,        "Voxel Generator" },
-            { GANodeType.MeshToVoxel,           "Voxeliser" },
+            { GANodeType.MeshToVoxel,           "Mesh to Voxel" },
             { GANodeType.Output,                "Output" },
         };
         public static GAGenNodeData GraphNodeToNodeData(GraphViewNode node)
@@ -47,6 +49,15 @@ namespace GAGen.Data.Utils
                 NodeType = node.NodeType,
                 AdditionalSettings = node.GetSettings()
             };
+        }
+
+        public static string BasePath
+        {
+            get
+            {
+                //"Packages/com.gagen.core/"
+                return "Assets/com.gagen.core/";
+            }
         }
 
         public static GANodeType GetNodeTypeFromName(string name)

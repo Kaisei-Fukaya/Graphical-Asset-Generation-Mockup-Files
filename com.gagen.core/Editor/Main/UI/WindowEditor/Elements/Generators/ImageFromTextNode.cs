@@ -9,20 +9,21 @@ using GAGen.Data;
 
 namespace GAGen.Graph.Elements
 {
-    public class TextToImageNode : GraphViewNode
+    public class ImageFromTextNode : GraphViewNode
     {
         protected GraphicalAssetPort _outputPort;
         protected GAPortType _outputPortType;
         protected List<string> _models = new List<string>(){
-        "A",
-        "B",
-        "C"
-    };
+        "Model A",
+        "Model B",
+        "Model C"
+        };
+        protected int _chosenModelIndex;
         public override void Initialise(Vector2 position)
         {
-            NodeType = GANodeType.TextToImage;
+            NodeType = GANodeType.ImageFromText;
             base.Initialise(position);
-            NodeName = "Text to Image";
+            NodeName = "Image from Text";
             _inputPortType = GAPortType.Text;
             _outputPortType = GAPortType.Bitmap;
         }
@@ -36,13 +37,14 @@ namespace GAGen.Graph.Elements
 
             VisualElement modelSelector = new VisualElement();
             Label modelSelectorLabel = new Label("Model");
-            PopupField<string> modelSelectorPopup = new PopupField<string>(_models, 0);
+            PopupField<string> modelSelectorPopup = new PopupField<string>(_models, _chosenModelIndex);
+            modelSelectorPopup.RegisterValueChangedCallback(x => OnModelSelected(x.newValue));
             modelSelector.Add(modelSelectorLabel);
             modelSelector.Add(modelSelectorPopup);
             extensionContainer.Insert(0, modelSelector);
 
 
-            _outputPort = new GraphicalAssetPort(this, _outputPortType, Orientation.Horizontal, Direction.Output, Port.Capacity.Single);
+            _outputPort = new GraphicalAssetPort(this, _outputPortType, Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
             _outgoingPorts.Add(_outputPort);
             //_outputPort.portName = _outputPortType.ToString();
             outputContainer.Add(_outputPort);
@@ -53,6 +55,32 @@ namespace GAGen.Graph.Elements
             inputContainer.Add(_inputPort);
 
             RefreshExpandedState();
+        }
+
+        public void OnModelSelected(string model)
+        {
+            for (int i = 0; i < _models.Count; i++)
+            {
+                if (_models[i] == model)
+                {
+                    _chosenModelIndex = i;
+                    CallSettingsEditEvent();
+                    return;
+                }
+            }
+        }
+
+        public override NodeSetting GetSettings()
+        {
+            NodeSetting setting = base.GetSettings();
+            setting.i2m_dropdownOpt2 = _chosenModelIndex;
+            return setting;
+        }
+
+        public override void LoadSettings(NodeSetting setting)
+        {
+            base.LoadSettings(setting);
+            _chosenModelIndex = setting.i2m_dropdownOpt2;
         }
 
 

@@ -10,23 +10,22 @@ using UnityEngine.UIElements;
 
 namespace GAGen.Graph.Elements
 {
-    public class ImageInputNode : InputNode
+    public class MeshInputNode : InputNode
     {
         public override void Initialise(Vector2 position)
         {
-            NodeType = GANodeType.ImageInput;
+            NodeType = GANodeType.MeshInput;
             base.Initialise(position);
-            NodeName = "Image Input";
-            _outputPortType = GAPortType.Bitmap;
+            NodeName = "Mesh Input";
+            _outputPortType = GAPortType.Mesh;
             styleSheets.Add((StyleSheet)AssetDatabase.LoadAssetAtPath($"{GAGenDataUtils.BasePath}Editor/Assets/UIStyles/GraphicalAssetInputNodeConnectorStyle.uss", typeof(StyleSheet)));
         }
 
         public override void Draw()
         {
             base.Draw();
-
-            RefreshExpandedState();
         }
+
 
     }
 }

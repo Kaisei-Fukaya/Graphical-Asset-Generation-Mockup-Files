@@ -23,7 +23,7 @@ namespace GAGen.Graph
             {
                 new SearchTreeGroupEntry(new GUIContent("Create Element"))
             };
-            string sourcePath = $"Packages/com.gagen.core/Editor/Main/UI/WindowEditor/Elements/";
+            string sourcePath = $"{GAGenDataUtils.BasePath}Editor/Main/UI/WindowEditor/Elements/";
             string[] allFolders = GAGenDataUtils.GetFolderPaths(sourcePath);
 
             foreach (string folder in allFolders)

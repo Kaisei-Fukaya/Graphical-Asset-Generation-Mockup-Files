@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using UnityEditor;
 using GAGen.Graph.Elements;
+using GAGen.Data.Utils;
 
 namespace GAGen.Graph
 {
@@ -64,7 +65,7 @@ namespace GAGen.Graph
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
 
-            this.AddManipulator(CreateNodeContextualManipulator("Add Node (MarchingCubes)", GANodeType.VoxelToMesh));
+            //this.AddManipulator(CreateNodeContextualManipulator("Add Node (MarchingCubes)", GANodeType.VoxelToMesh));
         }
 
         private IManipulator CreateNodeContextualManipulator(string actionTitle, GANodeType type)
@@ -164,7 +165,7 @@ namespace GAGen.Graph
             {
                 foreach (Edge edge in gvc.edgesToCreate)
                 {
-                    edge.styleSheets.Add((StyleSheet)AssetDatabase.LoadAssetAtPath("Packages/com.gagen.core/Editor/Assets/UIStyles/GraphicalAssetGeneratorEdgeStyle.uss", typeof(StyleSheet)));
+                    edge.styleSheets.Add((StyleSheet)AssetDatabase.LoadAssetAtPath($"{GAGenDataUtils.BasePath}Editor/Assets/UIStyles/GraphicalAssetGeneratorEdgeStyle.uss", typeof(StyleSheet)));
                     if (editorWindow.inTrainingMode)
                         edge.AddToClassList("train-edge");
                     else
@@ -188,7 +189,7 @@ namespace GAGen.Graph
 
         void AddStyles()
         {
-            StyleSheet styleSheet = (StyleSheet)AssetDatabase.LoadAssetAtPath("Packages/com.gagen.core/Editor/Assets/UIStyles/GraphViewStyle.uss", typeof(StyleSheet));
+            StyleSheet styleSheet = (StyleSheet)AssetDatabase.LoadAssetAtPath($"{GAGenDataUtils.BasePath}Editor/Assets/UIStyles/GraphViewStyle.uss", typeof(StyleSheet));
             styleSheets.Add(styleSheet);
         }
 

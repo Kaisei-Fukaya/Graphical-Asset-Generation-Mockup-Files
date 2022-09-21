@@ -1,3 +1,5 @@
+using GAGen.Data;
+using GAGen.Data.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -10,72 +12,59 @@ namespace GAGen.Graph.Elements
 {
     public class TextInputNode : InputNode
     {
-        TextField _textField;
-        VisualElement _preview;
-        bool _isBatchInput;
+        string _plainText = "";
         public override void Initialise(Vector2 position)
         {
             NodeType = GANodeType.TextInput;
             base.Initialise(position);
             NodeName = "Text Input";
             _outputPortType = GAPortType.Text;
-            styleSheets.Add((StyleSheet)AssetDatabase.LoadAssetAtPath("Packages/com.gagen.core/Editor/Assets/UIStyles/GraphicalAssetInputNodeConnectorStyle.uss", typeof(StyleSheet)));
+            _inputTypeChoices = new List<string>() { "Single", "Batch", "Plain-Text" };
+            styleSheets.Add((StyleSheet)AssetDatabase.LoadAssetAtPath($"{GAGenDataUtils.BasePath}Editor/Assets/UIStyles/GraphicalAssetInputNodeConnectorStyle.uss", typeof(StyleSheet)));
         }
 
         public override void Draw()
         {
             base.Draw();
-
-            Label textFieldLabel = new Label()
-            {
-                text = "Path:"
-            };
-            outputContainer.Insert(0, textFieldLabel);
-
-            _textField = new TextField();
-            _inputPaths.Add(_textField);
-            outputContainer.Insert(1, _textField);
-
-            Button openPathPickerButton = new Button();
-            openPathPickerButton.text = "...";
-            openPathPickerButton.clicked += OpenPathPicker;
-            outputContainer.Insert(2, openPathPickerButton);
-
-            PopupField<string> popupField = new PopupField<string>(new List<string>() { "Single", "Batch" }, "Single");
-            popupField.RegisterValueChangedCallback(x => SetInputType(popupField.value));
-            outputContainer.Insert(3, popupField);
-
-            _preview = new VisualElement();
-            extensionContainer.Add(_preview);
-
-            RefreshExpandedState();
         }
 
-        public void SetInputType(string value)
+        public override void SetInputType(string value, bool suppressEditEvent = false)
         {
-            _textField.value = "";
-            if (value == "Single")
+            base.SetInputType(value, true);
+            if (!suppressEditEvent)
+            {
+                _inputPath = "";
+                _textField.value = "";
+            }
+
+            extensionContainer.Clear();
+            if (value == "Plain-Text")
             {
                 _isBatchInput = false;
-                return;
+                TextField plainTextField = new TextField();
+                plainTextField.AddToClassList("text-field");
+                plainTextField.value = _plainText;
+                plainTextField.multiline = true;
+                plainTextField.RegisterValueChangedCallback(x => { _plainText = x.newValue; });
+                plainTextField.RegisterCallback<BlurEvent>(x => CallSettingsEditEvent());
+                extensionContainer.Add(plainTextField);
             }
-            _isBatchInput = true;
+            RefreshExpandedState();
+            if(!suppressEditEvent)
+                CallSettingsEditEvent();
         }
 
-        public void OpenPathPicker()
+        public override void LoadSettings(NodeSetting setting)
         {
-            if (_textField == null)
-                return;
+            base.LoadSettings(setting);
+            _plainText = setting.i_plainText;
+        }
 
-            if (_isBatchInput)
-                _textField.value = EditorUtility.OpenFolderPanel("Data Source", "Assets", "");
-            else
-                _textField.value = EditorUtility.OpenFilePanel("Data Source", "Assets", "");
-
-            //if (preview != null)
-            //{
-            //    preview.style.backgroundImage = new StyleBackground(AssetPreview.GetAssetPreview(AssetDatabase.LoadMainAssetAtPath(textField.value)));
-            //}
+        public override NodeSetting GetSettings()
+        {
+            NodeSetting settings = base.GetSettings();
+            settings.i_plainText = _plainText;
+            return settings;
         }
     }
 }

@@ -11,6 +11,7 @@ namespace GAGen.Graph.Elements
         {
             NodeType = GANodeType.VectorToBitmap;
             base.Initialise(position);
+            NodeName = "Vector to Bitmap";
             _inputPortType = GAPortType.VectorGraphic;
             _outputPortType = GAPortType.Bitmap;
         }

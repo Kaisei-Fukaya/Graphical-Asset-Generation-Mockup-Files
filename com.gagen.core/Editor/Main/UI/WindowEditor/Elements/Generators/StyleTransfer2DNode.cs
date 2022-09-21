@@ -5,6 +5,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
+using GAGen.Data;
 
 namespace GAGen.Graph.Elements
 {
@@ -13,10 +14,11 @@ namespace GAGen.Graph.Elements
         protected GraphicalAssetPort _inputPortA, _outputPort;
         protected GAPortType _inputPortAType, _outputPortType;
         protected List<string> _models = new List<string>(){
-        "A",
-        "B",
-        "C"
-    };
+        "Model A",
+        "Model B",
+        "Model C"
+        };
+        protected int _chosenModelIndex;
         public override void Initialise(Vector2 position)
         {
             NodeType = GANodeType.StyleTransfer2D;
@@ -36,27 +38,41 @@ namespace GAGen.Graph.Elements
 
             VisualElement modelSelector = new VisualElement();
             Label modelSelectorLabel = new Label("Model");
-            PopupField<string> modelSelectorPopup = new PopupField<string>(_models, 0);
+            PopupField<string> modelSelectorPopup = new PopupField<string>(_models, _chosenModelIndex);
+            modelSelectorPopup.RegisterValueChangedCallback(x => { _chosenModelIndex = _models.IndexOf(x.newValue); CallSettingsEditEvent(); });
             modelSelector.Add(modelSelectorLabel);
             modelSelector.Add(modelSelectorPopup);
             extensionContainer.Insert(0, modelSelector);
 
-            _outputPort = new GraphicalAssetPort(this, _outputPortType, Orientation.Horizontal, Direction.Output, Port.Capacity.Single);
+            _outputPort = new GraphicalAssetPort(this, _outputPortType, Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
             _outgoingPorts.Add(_outputPort);
             //_outputPort.portName = _outputPortType.ToString();
             outputContainer.Add(_outputPort);
 
-            _inputPort = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single);
+            _inputPort = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, "Style");
             _ingoingPorts.Add(_inputPort);
             //_inputPort.portName = _inputPortType.ToString();
             inputContainer.Add(_inputPort);
 
-            _inputPortA = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single);
+            _inputPortA = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, "Content");
             _ingoingPorts.Add(_inputPortA);
             //_inputPortA.portName = _inputPortAType.ToString();
             inputContainer.Add(_inputPortA);
 
             RefreshExpandedState();
+        }
+
+        public override NodeSetting GetSettings()
+        {
+            NodeSetting setting = base.GetSettings();
+            setting.i2m_dropdownOpt2 = _chosenModelIndex;
+            return setting;
+        }
+
+        public override void LoadSettings(NodeSetting setting)
+        {
+            base.LoadSettings(setting);
+            _chosenModelIndex = setting.i2m_dropdownOpt2;
         }
     }
 }

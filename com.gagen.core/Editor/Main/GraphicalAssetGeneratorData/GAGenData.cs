@@ -8,9 +8,10 @@ using UnityEditor;
 
 namespace GAGen.Data
 {
+    [CreateAssetMenu(menuName = "Graphical Asset Generator")]
     public class GAGenData : ScriptableObject
     {
-        [field: SerializeField] public List<GAGenNodeData> Nodes { get; set; }
+        [field: SerializeField] public List<GAGenNodeData> Nodes { get; set; } = new List<GAGenNodeData>();
 
         public void Save(GraphicalAssetGraphView graphView)
         {

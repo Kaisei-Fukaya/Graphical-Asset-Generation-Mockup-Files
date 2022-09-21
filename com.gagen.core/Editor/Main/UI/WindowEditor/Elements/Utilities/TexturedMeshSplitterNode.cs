@@ -16,6 +16,7 @@ namespace GAGen.Graph.Elements
         {
             NodeType = GANodeType.TexturedMeshSplitter;
             base.Initialise(position);
+            NodeName = "Textured Mesh Splitter";
             _inputPortType = GAPortType.TexturedMesh;
             _outputPortType = GAPortType.Mesh;
             _outputPortAType = GAPortType.Bitmap;
@@ -28,12 +29,12 @@ namespace GAGen.Graph.Elements
             _ingoingPorts = new List<GraphicalAssetPort>();
             _outgoingPorts = new List<GraphicalAssetPort>();
 
-            _outputPort = new GraphicalAssetPort(this, _outputPortType, Orientation.Horizontal, Direction.Output, Port.Capacity.Single);
+            _outputPort = new GraphicalAssetPort(this, _outputPortType, Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
             //_outputPort.portName = _outputPortType.ToString();
             _outgoingPorts.Add(_outputPort);
             outputContainer.Add(_outputPort);
 
-            _outputPortA = new GraphicalAssetPort(this, _outputPortAType, Orientation.Horizontal, Direction.Output, Port.Capacity.Single);
+            _outputPortA = new GraphicalAssetPort(this, _outputPortAType, Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
             //_outputPortA.portName = _outputPortAType.ToString();
             _outgoingPorts.Add(_outputPortA);
             outputContainer.Add(_outputPortA);

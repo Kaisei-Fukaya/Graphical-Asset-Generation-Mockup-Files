@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using System;
 using UnityEditor.Experimental.GraphView;
 using GAGen.Data;
+using GAGen.Data.Utils;
 
 namespace GAGen.Graph
 {
@@ -36,9 +37,9 @@ namespace GAGen.Graph
         private void CreateGUI()
         {
             this.titleContent = new GUIContent("Graphical Asset Generator");
-            _generateStyleVariables = (StyleSheet)AssetDatabase.LoadAssetAtPath("Packages/com.gagen.core/Editor/Assets/UIStyles/GraphicalAssetGeneratorVariablesGenerate.uss", typeof(StyleSheet));
-            _trainStyleVariables = (StyleSheet)AssetDatabase.LoadAssetAtPath("Packages/com.gagen.core/Editor/Assets/UIStyles/GraphicalAssetGeneratorVariablesTrain.uss", typeof(StyleSheet));
-            _toolbarToggleStyles = (StyleSheet)AssetDatabase.LoadAssetAtPath("Packages/com.gagen.core/Editor/Assets/UIStyles/GraphicalAssetToolbarToggleStyle.uss", typeof(StyleSheet));
+            _generateStyleVariables = (StyleSheet)AssetDatabase.LoadAssetAtPath($"{GAGenDataUtils.BasePath}Editor/Assets/UIStyles/GraphicalAssetGeneratorVariablesGenerate.uss", typeof(StyleSheet));
+            _trainStyleVariables = (StyleSheet)AssetDatabase.LoadAssetAtPath($"{GAGenDataUtils.BasePath}Editor/Assets/UIStyles/GraphicalAssetGeneratorVariablesTrain.uss", typeof(StyleSheet));
+            _toolbarToggleStyles = (StyleSheet)AssetDatabase.LoadAssetAtPath($"{GAGenDataUtils.BasePath}Editor/Assets/UIStyles/GraphicalAssetToolbarToggleStyle.uss", typeof(StyleSheet));
             AddToolbar();
             _mainView = new VisualElement()
             {
@@ -183,21 +184,36 @@ namespace GAGen.Graph
         void Save()
         {
             //If save data doesn't exist, call save as
-            if(_saveData == null)
+            if (_saveData == null)
             {
                 SaveAs();
+                return;
             }
 
             //Otherwise overwrite the data
             _saveData.Save(_graphView);
             AssetDatabase.SaveAssetIfDirty(_saveData);
             EditorUtility.FocusProjectWindow();
-            Selection.activeObject = _saveData;
+                
+            void RefreshSelection()
+            {
+                if (Selection.activeObject == null)
+                    Selection.activeObject = _saveData;
+                else
+                {
+                    Selection.activeObject = null;
+                    EditorApplication.delayCall += RefreshSelection;
+                }
+            }
+
+            EditorApplication.delayCall += RefreshSelection;
         }
 
         void SaveAs()
         {
             string savePath = EditorUtility.SaveFilePanelInProject("Save As", "New Graphical Asset Generator", "asset", "");
+            if (savePath == string.Empty)
+                return;
             _saveData = CreateInstance<GAGenData>();
             _saveData.Save(_graphView);
             AssetDatabase.CreateAsset(_saveData, savePath);
@@ -224,6 +240,7 @@ namespace GAGen.Graph
                 GraphViewNode newNode = _graphView.CreateNode(nodeData.NodeType, nodeData.Position);
                 newNode.ID = nodeData.ID;
                 newNode.LoadSettings(nodeData.AdditionalSettings);
+                newNode.Draw();
                 iDToNode.Add(newNode.ID, new NodeAndData(newNode, nodeData));
                 allNodeIDs.Add(newNode.ID);
                 _graphView.AddElement(newNode);
@@ -242,7 +259,10 @@ namespace GAGen.Graph
                     continue;
                 //Gen connections
                 if (ports.Count != nodeData.GenConnections.Count)
+                {
+                    Debug.Log("dddd");
                     continue;
+                }
                 for (int i = 0; i < nodeData.GenConnections.Count; i++)
                 {
                     if (nodeData.GenConnections[i].iD == "EMPTY")
@@ -250,7 +270,7 @@ namespace GAGen.Graph
 
                     GraphViewNode otherNode = iDToNode[nodeData.GenConnections[i].iD].node;
                     List<GraphicalAssetPort> otherPorts = otherNode.GetPorts(false);
-                    Edge edge = otherPorts[nodeData.GenConnections[i].index].ConnectTo(ports[i].GetPort(false), false);
+                    Edge edge = otherPorts[nodeData.GenConnections[i].indexInOther].ConnectTo(ports[i].GetPort(false), false);
                     if (edge == null)
                         continue;
                     _graphView.AddElement(edge);
@@ -263,7 +283,7 @@ namespace GAGen.Graph
 
                     GraphViewNode otherNode = iDToNode[nodeData.TrainConnections[i].iD].node;
                     List<GraphicalAssetPort> otherPorts = otherNode.GetPorts(false);
-                    _graphView.AddElement(otherPorts[nodeData.TrainConnections[i].index].ConnectTo(ports[i].GetPort(true), true));
+                    _graphView.AddElement(otherPorts[nodeData.TrainConnections[i].indexInOther].ConnectTo(ports[i].GetPort(true), true));
                 }
             }
 
@@ -328,7 +348,7 @@ namespace GAGen.Graph
         void AddStyles()
         {
             _variablesStyleSheet = _generateStyleVariables;
-            StyleSheet windowStyleSheet = (StyleSheet)AssetDatabase.LoadAssetAtPath("Packages/com.gagen.core/Editor/Assets/UIStyles/GraphicalAssetGeneratorWindowStyle.uss", typeof(StyleSheet));
+            StyleSheet windowStyleSheet = (StyleSheet)AssetDatabase.LoadAssetAtPath($"{GAGenDataUtils.BasePath}Editor/Assets/UIStyles/GraphicalAssetGeneratorWindowStyle.uss", typeof(StyleSheet));
             rootVisualElement.styleSheets.Add(_variablesStyleSheet);
             rootVisualElement.styleSheets.Add(windowStyleSheet);
         }

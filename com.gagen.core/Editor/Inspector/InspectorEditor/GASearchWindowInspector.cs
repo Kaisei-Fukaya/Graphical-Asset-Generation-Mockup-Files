@@ -13,10 +13,10 @@ namespace GAGen.Inspector
 {
     public class GASearchWindowInspector : GASearchWindow
     {
-        GraphicalAssetGeneratorInspector _inspector;
+        GAGenDataInspector _inspector;
         bool _isOutput;
         string[] _foldersToUse;
-        public void Initialise(GraphicalAssetGeneratorInspector inspector, string[] foldersToUse, bool isOutput = false)
+        public void Initialise(GAGenDataInspector inspector, string[] foldersToUse, bool isOutput = false)
         {
             //_graphView = graphView;
             _inspector = inspector;
@@ -32,7 +32,7 @@ namespace GAGen.Inspector
 
             if (!_isOutput)
             {
-                string sourcePath = $"Packages/com.gagen.core/Editor/Main/UI/WindowEditor/Elements/";
+                string sourcePath = $"{GAGenDataUtils.BasePath}Editor/Main/UI/WindowEditor/Elements/";
                 string[] allFolders = GAGenDataUtils.GetFolderPaths(sourcePath);
                 foreach (string folder in allFolders)
                 {
@@ -43,6 +43,8 @@ namespace GAGen.Inspector
                         searchTreeEntries.Add(new SearchTreeGroupEntry(new GUIContent(folderName), 1));
                         foreach (string fileName in fileNames)
                         {
+                            if (GAGenDataUtils.GetNodeTypeFromName(fileName) == GANodeType.Labeller)
+                                continue;
                             searchTreeEntries.Add(new SearchTreeEntry(new GUIContent(GAGenDataUtils.CleanFileName(fileName)))
                             {
                                 level = 2,

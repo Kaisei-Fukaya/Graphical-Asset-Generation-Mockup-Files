@@ -10,13 +10,13 @@ using GAGen.Data;
 
 namespace GAGen.Graph.Elements
 {
-    public class SketchToMeshNode : PhotoToMeshNode
+    public class MeshFromSketchNode : MeshFromPhotoNode
     {
         public override void Initialise(Vector2 position)
         {
-            NodeType = GANodeType.SketchToMesh;
+            NodeType = GANodeType.MeshFromSketch;
             base.Initialise(position);
-            NodeName = "Sketch to Mesh";
+            NodeName = "Mesh from Sketch";
             _inputPortType = GAPortType.Bitmap;
             _outputPortType = GAPortType.Mesh;
             _models = new List<string>(){
@@ -25,7 +25,9 @@ namespace GAGen.Graph.Elements
                 "Vehicles",
                 "Other object (Requires training data to fine-tune)"
             };
+            _inputTypeName = "Sketch";
         }
+
 
         public override void Draw()
         {

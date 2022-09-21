@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEditor;
+using GAGen.Data.Utils;
 
 namespace GAGen.Graph
 {
@@ -15,7 +16,7 @@ namespace GAGen.Graph
 
         public void Initialise(GraphView graphView)
         {
-            styleSheets.Add((StyleSheet)AssetDatabase.LoadAssetAtPath("Packages/com.gagen.core/Editor/Assets/UIStyles/GraphicalAssetPreviewStyle.uss", typeof(StyleSheet)));
+            styleSheets.Add((StyleSheet)AssetDatabase.LoadAssetAtPath($"{GAGenDataUtils.BasePath}Editor/Assets/UIStyles/GraphicalAssetPreviewStyle.uss", typeof(StyleSheet)));
             _mesh = Resources.GetBuiltinResource(typeof(Mesh), $"Cube.fbx") as Mesh;
             _previewEditor = Editor.CreateEditor(_mesh);
 

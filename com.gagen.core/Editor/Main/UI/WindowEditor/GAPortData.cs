@@ -14,7 +14,7 @@ namespace GAGen.Graph {
                 {
                     return PortType.ToString();
                 }
-                return _name + $" ({PortType})";
+                return $"{_name} ({PortType})";
             }
             set
             {

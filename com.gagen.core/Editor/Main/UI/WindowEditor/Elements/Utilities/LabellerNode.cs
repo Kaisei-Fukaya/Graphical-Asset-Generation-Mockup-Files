@@ -6,6 +6,8 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using UnityEngine;
 using UnityEditor;
+using GAGen.Data.Utils;
+using GAGen.Data;
 
 namespace GAGen.Graph.Elements
 {
@@ -13,6 +15,7 @@ namespace GAGen.Graph.Elements
     {
         TextField _textField;
         PopupField<GAPortType> _popupField;
+        string _textValue;
 
         public override void Initialise(Vector2 position)
         {
@@ -20,7 +23,7 @@ namespace GAGen.Graph.Elements
             base.Initialise(position);
             _inputPortType = GAPortType.Bitmap;
             _outputPortType = GAPortType.Bitmap;
-            styleSheets.Add((StyleSheet)AssetDatabase.LoadAssetAtPath("Packages/com.gagen.core/Editor/Assets/UIStyles/GraphicalAssetLabellerStyle.uss", typeof(StyleSheet)));
+            styleSheets.Add((StyleSheet)AssetDatabase.LoadAssetAtPath($"{GAGenDataUtils.BasePath}Editor/Assets/UIStyles/GraphicalAssetLabellerStyle.uss", typeof(StyleSheet)));
         }
 
         public override void Draw()
@@ -33,6 +36,9 @@ namespace GAGen.Graph.Elements
             extensionContainer.Add(pathTitle);
 
             _textField = new TextField();
+            _textField.value = _textValue;
+            _textField.RegisterValueChangedCallback(x => { _textValue = x.newValue; CallSettingsEditEvent(); });
+            _textField.SetEnabled(false);
             extensionContainer.Add(_textField);
 
             Button openPathPickerButton = new Button();
@@ -46,7 +52,7 @@ namespace GAGen.Graph.Elements
 
         void DrawInputPort()
         {
-            if (_popupField != null)
+            if (_popupField != null && inputContainer.Contains(_popupField))
                 inputContainer.Remove(_popupField);
 
             //_inputPort.portName = _inputPortType.ToString();
@@ -60,7 +66,7 @@ namespace GAGen.Graph.Elements
                 popupOptions.Add(x);
             }
             _popupField = new PopupField<GAPortType>(popupOptions, _inputPortType);
-            _popupField.RegisterValueChangedCallback(x => UpdatePort(_popupField.value));
+            _popupField.RegisterValueChangedCallback(x => { UpdatePort(_popupField.value); CallSettingsEditEvent(); });
             inputContainer.Insert(1, _popupField);
         }
 
@@ -74,7 +80,7 @@ namespace GAGen.Graph.Elements
             GraphView.DeleteElements(_outputPort.Connections(false));
             _outputPort.DisconnectAll();
             _outputPortType = value;
-            DrawInputPort();
+            Draw();
         }
 
         public void OpenPathPicker()
@@ -83,6 +89,23 @@ namespace GAGen.Graph.Elements
                 return;
 
             _textField.value = EditorUtility.OpenFilePanel("Label Data Source", "Assets", "");
+
+            CallSettingsEditEvent();
+        }
+
+        public override NodeSetting GetSettings()
+        {
+            NodeSetting setting = base.GetSettings();
+            setting.l_selectedPortType = _inputPortType;
+            setting.i_plainText = _textValue;
+            return setting;
+        }
+
+        public override void LoadSettings(NodeSetting setting)
+        {
+            base.LoadSettings(setting);
+            _inputPortType = setting.l_selectedPortType;
+            _textValue = setting.i_plainText;
         }
     }
 }

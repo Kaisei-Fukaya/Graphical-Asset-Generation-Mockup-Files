@@ -10,7 +10,7 @@ using GAGen.Data;
 
 namespace GAGen.Graph.Elements
 {
-    public class PhotoToMeshNode : GraphViewNode
+    public class MeshFromPhotoNode : GraphViewNode
     {
         protected GraphicalAssetPort _outputPort;
         protected GAPortType _outputPortType;
@@ -31,13 +31,15 @@ namespace GAGen.Graph.Elements
 
         protected int _chosenInputTypeIndex = 0;
         protected int _chosenModelIndex = 0;
+
+        protected string _inputTypeName = "Photograph";
         public override void Initialise(Vector2 position)
         {
-            NodeType = GANodeType.PhotoToMesh;
+            NodeType = GANodeType.MeshFromPhoto;
             base.Initialise(position);
-            NodeName = "Photo to Mesh";
+            NodeName = "Mesh from Photo";
             _inputPortType = GAPortType.Bitmap;
-            _outputPortType = GAPortType.Mesh;
+            _outputPortType = GAPortType.TexturedMesh;
         }
 
         public override void Draw()
@@ -48,7 +50,7 @@ namespace GAGen.Graph.Elements
 
             VisualElement modelSelector = new VisualElement();
             Label modelSelectorLabel = new Label("Model");
-            PopupField<string> modelSelectorPopup = new PopupField<string>(_models, 0);
+            PopupField<string> modelSelectorPopup = new PopupField<string>(_models, _chosenModelIndex);
             modelSelectorPopup.RegisterValueChangedCallback(x => OnModelSelected(modelSelectorPopup.value));
             modelSelector.Add(modelSelectorLabel);
             modelSelector.Add(modelSelectorPopup);
@@ -66,12 +68,12 @@ namespace GAGen.Graph.Elements
             extensionContainer.Insert(0, inputTypeSelector);
 
 
-            _outputPort = new GraphicalAssetPort(this, _outputPortType, Orientation.Horizontal, Direction.Output, Port.Capacity.Single, "Generated");
+            _outputPort = new GraphicalAssetPort(this, _outputPortType, Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, "Generated");
             //_outputPort.portName = _outputPortType.ToString();
             outputContainer.Add(_outputPort);
             _outgoingPorts.Add(_outputPort);
 
-            OnModeSelected(_inputTypes[0]);
+            OnModeSelected(_inputTypes[_chosenInputTypeIndex]);
 
             RefreshExpandedState();
         }
@@ -96,7 +98,7 @@ namespace GAGen.Graph.Elements
 
             if (mode == _inputTypes[0])
             {
-                _inputPort = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, "Photograph");
+                _inputPort = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, _inputTypeName);
                 //_inputPort.portName = _inputPortType.ToString();
                 _ingoingPorts.Add(_inputPort);
                 inputContainer.Add(_inputPort);
@@ -105,10 +107,10 @@ namespace GAGen.Graph.Elements
             }
 
             GraphicalAssetPort port1, port2, port3, port4;
-            port1 = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, "Front-view");
-            port2 = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, "Left-side-view");
-            port3 = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, "Right-side-view");
-            port4 = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, "Back-view");
+            port1 = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, $"Front-view {_inputTypeName}");
+            port2 = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, $"Left-side-view {_inputTypeName}");
+            port3 = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, $"Right-side-view {_inputTypeName}");
+            port4 = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, $"Back-view {_inputTypeName}");
             //port1.portName = _inputPortType.ToString();
             //port2.portName = _inputPortType.ToString();
             //port3.portName = _inputPortType.ToString();
@@ -128,39 +130,15 @@ namespace GAGen.Graph.Elements
 
         public virtual void OnModelSelected(string model)
         {
-            if(model == _models[0])
+            for (int i = 0; i < _models.Count; i++)
             {
-
+                if (_models[i] == model)
+                {
+                    _chosenModelIndex = i;
+                    CallSettingsEditEvent();
+                    return;
+                }
             }
-            if (model == _models[1])
-            {
-
-            }
-            if (model == _models[2])
-            {
-
-            }
-            if (model == _models[3])
-            {
-
-            }
-            if (model == _models[4])
-            {
-
-            }
-            if (model == _models[5])
-            {
-
-            }
-            if (model == _models[6])
-            {
-
-            }
-            if (model == _models[7])
-            {
-
-            }
-            CallSettingsEditEvent();
         }
 
         public override NodeSetting GetSettings()

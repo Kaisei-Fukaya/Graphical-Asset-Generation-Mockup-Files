@@ -21,15 +21,16 @@ namespace GAGen.Data
     public struct ConnectionData
     {
         public string iD;
-        public int index;
+        public int indexInOwner, indexInOther;
         public string owner;
         public GAPortType type;
         public string ownerDisplayName;
 
-        public ConnectionData(string iD, int index, string owner, GAPortType type, string displayName = "")
+        public ConnectionData(string iD, int indexInOther, int indexInOwner, string owner, GAPortType type, string displayName = "")
         {
             this.iD = iD;
-            this.index = index;
+            this.indexInOwner = indexInOwner;
+            this.indexInOther = indexInOther;
             this.owner = owner;
             this.type = type;
             ownerDisplayName = displayName;
@@ -49,8 +50,16 @@ namespace GAGen.Data
         public int i2m_dropdownOpt1;
         public int i2m_dropdownOpt2;
         //InputNode
-        public string i_pathOrPlainText;
+        public string i_plainText;
         public int i_chosenInputMode;
+        //Number Input
+        public int n_min;
+        public int n_max;
+        public int n_val;
+        //Interpolator
+        public float slider1;
+
+        public GAPortType l_selectedPortType;
     }
 
     [Serializable]

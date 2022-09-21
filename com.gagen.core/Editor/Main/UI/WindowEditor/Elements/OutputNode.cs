@@ -8,6 +8,7 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using GAGen.Data;
 using System.Linq;
+using GAGen.Data.Utils;
 
 namespace GAGen.Graph.Elements
 {
@@ -183,7 +184,7 @@ namespace GAGen.Graph.Elements
                 _parentNode = outputNode;
                 _graphView = graphView;
                 path = outputPathText;
-                styleSheets.Add((StyleSheet)AssetDatabase.LoadAssetAtPath("Packages/com.gagen.core/Editor/Assets/UIStyles/GraphicalAssetOutputNodeConnectorStyle.uss", typeof(StyleSheet)));
+                styleSheets.Add((StyleSheet)AssetDatabase.LoadAssetAtPath($"{GAGenDataUtils.BasePath}Editor/Assets/UIStyles/GraphicalAssetOutputNodeConnectorStyle.uss", typeof(StyleSheet)));
             }
 
             public void Draw()

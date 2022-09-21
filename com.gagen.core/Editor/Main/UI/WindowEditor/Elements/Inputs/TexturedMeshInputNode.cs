@@ -10,22 +10,20 @@ using UnityEngine.UIElements;
 
 namespace GAGen.Graph.Elements
 {
-    public class ImageInputNode : InputNode
+    public class TexturedMeshInputNode : InputNode
     {
         public override void Initialise(Vector2 position)
         {
-            NodeType = GANodeType.ImageInput;
+            NodeType = GANodeType.TexturedMeshInput;
             base.Initialise(position);
-            NodeName = "Image Input";
-            _outputPortType = GAPortType.Bitmap;
+            NodeName = "Textured Mesh Input";
+            _outputPortType = GAPortType.TexturedMesh;
             styleSheets.Add((StyleSheet)AssetDatabase.LoadAssetAtPath($"{GAGenDataUtils.BasePath}Editor/Assets/UIStyles/GraphicalAssetInputNodeConnectorStyle.uss", typeof(StyleSheet)));
         }
 
         public override void Draw()
         {
             base.Draw();
-
-            RefreshExpandedState();
         }
 
     }

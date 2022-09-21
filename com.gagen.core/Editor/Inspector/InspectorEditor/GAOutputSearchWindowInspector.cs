@@ -13,10 +13,10 @@ namespace GAGen.Inspector
 {
     public class GAOutputSearchWindowInspector : GASearchWindow
     {
-        GraphicalAssetGeneratorInspector _inspector;
+        GAGenDataInspector _inspector;
         bool _isOutput;
         string[] _foldersToUse;
-        public void Initialise(GraphicalAssetGeneratorInspector inspector)
+        public void Initialise(GAGenDataInspector inspector)
         {
             //_graphView = graphView;
             _inspector = inspector;

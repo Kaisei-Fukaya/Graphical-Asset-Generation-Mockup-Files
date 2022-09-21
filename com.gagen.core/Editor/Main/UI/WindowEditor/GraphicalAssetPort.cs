@@ -20,6 +20,16 @@ namespace GAGen.Graph
         Port _trainPort, _genPort;
         Color _trainPortColor, _genPortColor, _trainPortDisabledColor, _genPortDisabledColor;
         string _customPortName;
+        public string PortName { 
+            get
+            {
+                if (_customPortName == string.Empty)
+                {
+                    return PortType.ToString();
+                }
+                return $"{_customPortName} ({PortType})";
+            }
+        }
         public GraphicalAssetPort(GraphViewNode parent, GAPortType portType, Orientation orientation, Direction direction, Port.Capacity capacity, string customPortName = "")
         {
             _parentNode = parent;

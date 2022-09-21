@@ -22,7 +22,7 @@ namespace GAGen.Graph.Elements
             _outgoingPorts = new List<GraphicalAssetPort>();
             _ingoingPorts = new List<GraphicalAssetPort>();
 
-            _outputPort = new GraphicalAssetPort(this, _outputPortType, Orientation.Horizontal, Direction.Output, Port.Capacity.Single);
+            _outputPort = new GraphicalAssetPort(this, _outputPortType, Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
             _outgoingPorts.Add(_outputPort);
             //_outputPort.portName = _outputPortType.ToString();
             outputContainer.Add(_outputPort);

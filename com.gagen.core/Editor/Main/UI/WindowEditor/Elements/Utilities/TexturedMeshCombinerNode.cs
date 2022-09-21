@@ -15,8 +15,8 @@ namespace GAGen.Graph.Elements
         public override void Initialise(Vector2 position)
         {
             NodeType = GANodeType.TexturedMeshCombiner;
-            NodeName = "Textured Mesh Combiner";
             base.Initialise(position);
+            NodeName = "Textured Mesh Combiner";
             _inputPortType = GAPortType.Mesh;
             _inputPortTypeA = GAPortType.Bitmap;
             _outputPortType = GAPortType.TexturedMesh;
@@ -29,7 +29,7 @@ namespace GAGen.Graph.Elements
             _ingoingPorts = new List<GraphicalAssetPort>();
             _outgoingPorts = new List<GraphicalAssetPort>();
 
-            _outputPort = new GraphicalAssetPort(this, _outputPortType, Orientation.Horizontal, Direction.Output, Port.Capacity.Single);
+            _outputPort = new GraphicalAssetPort(this, _outputPortType, Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
             //_outputPort.portName = _outputPortType.ToString();
             _outgoingPorts.Add(_outputPort);
             outputContainer.Add(_outputPort);
