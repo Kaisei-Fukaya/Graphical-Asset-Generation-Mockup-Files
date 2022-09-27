@@ -15,10 +15,11 @@ The Unity interfaces come as a package. Ensure that you have a version of Unity 
 
 
 ### Manual download and copy
-To install, create a new project and download the files from here:
+To install, create a new project and download the files from here:<br/>
+https://github.com/Kaisei-Fukaya/Graphical-Asset-Generation-Mockup-Files/releases/tag/v1.0.0
 
 Extract the "com.gagen.core" folder and place it within the "Packages" folder at the root of your project.
 
 ### Using Git
-Alternatively, if you have Git installed, open Unity and go to "Window > Package Manager" on the toolbar, from the package manager, click the plus icon and choose "Add package from git URL...". Then paste this URL into the search bar: 
+Alternatively, if you have Git installed, open Unity and go to "Window > Package Manager" on the toolbar, from the package manager, click the plus icon and choose "Add package from git URL...". Then paste this URL into the search bar:<br/> 
 https://github.com/Kaisei-Fukaya/Graphical-Asset-Generation-Mockup-Files.git?path=/com.gagen.core
