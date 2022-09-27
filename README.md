@@ -22,4 +22,9 @@ Extract the "com.gagen.core" folder and place it within the "Packages" folder at
 
 ### Using Git
 Alternatively, if you have Git installed, open Unity and go to "Window > Package Manager" on the toolbar, from the package manager, click the plus icon and choose "Add package from git URL...". Then paste this URL into the search bar:<br/> 
-https://github.com/Kaisei-Fukaya/Graphical-Asset-Generation-Mockup-Files.git?path=/com.gagen.core
+https://github.com/Kaisei-Fukaya/Graphical-Asset-Generation-Mockup-Files.git?path=/com.gagen.core<br/>
+
+If all is well, you should see "Graphical Asset Generator" listed as a package in your project.
+
+![image](https://user-images.githubusercontent.com/32553821/192529720-7d08f2d8-ea7c-4c01-9698-54c17da5a49e.png)
+
