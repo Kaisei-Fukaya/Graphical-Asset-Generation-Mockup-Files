@@ -3,12 +3,5 @@
   "version": "1.0.0",
   "displayName": "Graphical Asset Generator",
   "description": "This is a non-functional mockup for a tool that allows you to create graphical asset generators.",
-  "unity": "2020.3",
-  "samples": [
-  {
-    "displayName": "Inspector Prefab",
-    "description": "Prefab for inspector UI testing",
-    "path": "Samples~"
-  }
- ]
+  "unity": "2020.3"
 }

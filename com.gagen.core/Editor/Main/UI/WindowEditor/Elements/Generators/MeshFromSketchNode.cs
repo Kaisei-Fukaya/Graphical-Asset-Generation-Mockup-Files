@@ -14,8 +14,8 @@ namespace GAGen.Graph.Elements
     {
         public override void Initialise(Vector2 position)
         {
-            NodeType = GANodeType.MeshFromSketch;
             base.Initialise(position);
+            NodeType = GANodeType.MeshFromSketch;
             NodeName = "Mesh from Sketch";
             _inputPortType = GAPortType.Bitmap;
             _outputPortType = GAPortType.Mesh;

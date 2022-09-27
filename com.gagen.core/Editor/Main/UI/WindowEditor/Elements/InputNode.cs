@@ -134,6 +134,7 @@ namespace GAGen.Graph.Elements
                 _textField.value = EditorUtility.OpenFilePanel("Data Source", "Assets", "");
 
             _textFieldContainer.tooltip = _textField.value;
+            _inputPath = _textField.value;
             //if (preview != null)
             //{
             //    preview.style.backgroundImage = new StyleBackground(AssetPreview.GetAssetPreview(AssetDatabase.LoadMainAssetAtPath(textField.value)));

@@ -41,11 +41,11 @@ namespace GAGen.Data
     public class NodeSetting
     {
         //Number of inputs
-        public List<GAPortType> i_portTypes;
-        public List<string> i_inputPaths;
+        public List<GAPortType> i_portTypes = new List<GAPortType>();
+        public List<string> i_inputPaths = new List<string>();
         //Output settings
-        public List<GAPortType> o_portTypes;
-        public List<string> o_outputPaths;
+        public List<GAPortType> o_portTypes = new List<GAPortType>();
+        public List<string> o_outputPaths = new List<string>();
         //Image2MeshNode
         public int i2m_dropdownOpt1;
         public int i2m_dropdownOpt2;

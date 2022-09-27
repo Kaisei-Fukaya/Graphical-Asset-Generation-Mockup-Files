@@ -11,12 +11,12 @@ namespace GAGen.Graph.Elements
 {
     public class ImageFromTextNode : GraphViewNode
     {
-        protected GraphicalAssetPort _outputPort;
+        protected GraphicalAssetPort _outputPort, _sizeInputPortX, _sizeInputPortY;
         protected GAPortType _outputPortType;
         protected List<string> _models = new List<string>(){
-        "Model A",
-        "Model B",
-        "Model C"
+        "Icon",
+        "Character",
+        "General Image"
         };
         protected int _chosenModelIndex;
         public override void Initialise(Vector2 position)
@@ -51,8 +51,15 @@ namespace GAGen.Graph.Elements
 
             _inputPort = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single);
             _ingoingPorts.Add(_inputPort);
-            //_inputPort.portName = _inputPortType.ToString();
             inputContainer.Add(_inputPort);
+
+            _sizeInputPortX = new GraphicalAssetPort(this, GAPortType.Integer, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, "Resolution Width");
+            _ingoingPorts.Add(_sizeInputPortX);
+            inputContainer.Add(_sizeInputPortX);
+
+            _sizeInputPortY = new GraphicalAssetPort(this, GAPortType.Integer, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, "Resolution Height");
+            _ingoingPorts.Add(_sizeInputPortY);
+            inputContainer.Add(_sizeInputPortY);
 
             RefreshExpandedState();
         }

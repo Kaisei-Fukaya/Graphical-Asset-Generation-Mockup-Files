@@ -12,7 +12,7 @@ namespace GAGen.Graph.Elements
 {
     public class MeshFromPhotoNode : GraphViewNode
     {
-        protected GraphicalAssetPort _outputPort;
+        protected GraphicalAssetPort _outputPort, _inputNumPort;
         protected GAPortType _outputPortType;
         protected List<string> _inputTypes = new List<string>(){
         "Single-view",
@@ -99,9 +99,11 @@ namespace GAGen.Graph.Elements
             if (mode == _inputTypes[0])
             {
                 _inputPort = new GraphicalAssetPort(this, _inputPortType, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, _inputTypeName);
-                //_inputPort.portName = _inputPortType.ToString();
                 _ingoingPorts.Add(_inputPort);
                 inputContainer.Add(_inputPort);
+                _inputNumPort = new GraphicalAssetPort(this, GAPortType.Integer, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, "Amount to generate");
+                _ingoingPorts.Add(_inputNumPort);
+                inputContainer.Add(_inputNumPort);
                 CallSettingsEditEvent();
                 return;
             }
@@ -124,6 +126,10 @@ namespace GAGen.Graph.Elements
             _ingoingPorts.Add(port2);
             _ingoingPorts.Add(port3);
             _ingoingPorts.Add(port4);
+
+            _inputNumPort = new GraphicalAssetPort(this, GAPortType.Integer, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, "Amount to generate");
+            _ingoingPorts.Add(_inputNumPort);
+            inputContainer.Add(_inputNumPort);
 
             CallSettingsEditEvent();
         }

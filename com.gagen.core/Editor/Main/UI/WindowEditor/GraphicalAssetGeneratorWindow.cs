@@ -260,7 +260,7 @@ namespace GAGen.Graph
                 //Gen connections
                 if (ports.Count != nodeData.GenConnections.Count)
                 {
-                    Debug.Log("dddd");
+                    //Debug.Log("dddd");
                     continue;
                 }
                 for (int i = 0; i < nodeData.GenConnections.Count; i++)

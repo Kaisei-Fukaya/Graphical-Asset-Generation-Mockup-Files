@@ -17,6 +17,7 @@ namespace GAGen.Data.Utils
             { GANodeType.TexturedMeshInput,     "Textured Mesh Input" },
             { GANodeType.MeshInput,             "Mesh Input" },
             { GANodeType.NumberInput,           "Number Input" },
+            { GANodeType.PointCloudInput,       "Point Cloud Input" },
             { GANodeType.Grammar,               "Grammar" },
             { GANodeType.MeshFromPhoto,         "Mesh from Photo" },
             { GANodeType.MeshFromSketch,        "Mesh from Sketch" },

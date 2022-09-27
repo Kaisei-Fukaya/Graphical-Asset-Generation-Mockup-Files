@@ -158,6 +158,12 @@ namespace GAGen.Graph.Elements
             RefreshExpandedState();
         }
 
+        public override List<ConnectionData> GetIngoingConnectionIDs(bool isTrainMode)
+        {
+            DrawConnectors();
+            return base.GetIngoingConnectionIDs(isTrainMode);
+        }
+
         public class Connector : VisualElement
         {
             public GraphicalAssetPort port;

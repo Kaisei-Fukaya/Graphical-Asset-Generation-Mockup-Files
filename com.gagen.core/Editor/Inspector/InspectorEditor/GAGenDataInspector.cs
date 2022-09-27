@@ -247,7 +247,7 @@ namespace GAGen.Inspector
             //Add the add button
             Button addButton = CreateSearchButton(appropriateFolders, _searchWindowConvert);
             addButton.tooltip = "Choose a conversion node to add to the generator.";
-            GAGInspectorSubsection conversionSection = new GAGInspectorSubsection(this, GetAllDataForSection, addButton, appropriateFolders, title: "Convertors", name: "convert-section-container");
+            GAGInspectorSubsection conversionSection = new GAGInspectorSubsection(this, GetAllDataForSection, addButton, appropriateFolders, title: "Converters", name: "convert-section-container");
 
             return conversionSection;
         }

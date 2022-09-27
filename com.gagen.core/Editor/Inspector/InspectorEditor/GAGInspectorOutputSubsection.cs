@@ -32,11 +32,13 @@ namespace GAGen.Inspector
             mainContainer.Clear();
             UpdateData();
 
+            bool outputNodeFound = false;
             foreach (GAGenNodeData node in _data)
             {
                 //Debug.Log("node in data");
                 if (node.NodeType == Graph.GANodeType.Output)
                 {
+                    outputNodeFound = true;
                     GraphViewNode pNode;
                     if (!_mainInspector.proxyNodes.ContainsKey(node))
                     {
@@ -130,6 +132,15 @@ namespace GAGen.Inspector
                         mainContainer.Add(newOutputPath);
                     }
                 }
+            }
+            if (!outputNodeFound)
+            {
+                _mainInspector.Data.Nodes.Add(new GAGenNodeData() { 
+                    ID = Guid.NewGuid().ToString(),
+                    NodeType = GANodeType.Output,
+                    AdditionalSettings = new NodeSetting()
+                });
+                Draw();
             }
             mainContainer.Add(_addButton);
         }

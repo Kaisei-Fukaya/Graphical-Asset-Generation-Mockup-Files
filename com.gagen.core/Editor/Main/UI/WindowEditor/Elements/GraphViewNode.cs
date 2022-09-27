@@ -216,7 +216,7 @@ namespace GAGen.Graph
             return outgoingConnections;
         }
 
-        public List<GAGen.Data.ConnectionData> GetIngoingConnectionIDs(bool isTrainMode)
+        public virtual List<GAGen.Data.ConnectionData> GetIngoingConnectionIDs(bool isTrainMode)
         {
             if (_ingoingPorts == null)
                 return null;
@@ -266,6 +266,7 @@ namespace GAGen.Graph
         TextInput,
         TexturedMeshInput,
         MeshInput,
+        PointCloudInput,
         MeshGenerator,
         VoxelGenerator,
         NumberInput,
