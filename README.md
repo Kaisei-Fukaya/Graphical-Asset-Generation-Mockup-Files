@@ -8,7 +8,7 @@ It is recommended that you download these first, and follow the installation ins
 ### Stand-alone
 The stand-alone interface can be downloaded [here](https://github.com/Kaisei-Fukaya/Graphical-Asset-Generation-Mockup-Files/blob/09e65ee4ee42eac20d15d08e204103b491490e29/graphical-asset-generator_stand-alone-win32-x64.zip).
 
-Once downloaded, extract the zip file in a location of your choosing such as your desktop. To run the application double click the {...exe} file. You may see a warning, click yes to run.
+Once downloaded, extract the zip file in a location of your choosing such as your desktop. To run the application double click the ".exe" file. You may see a warning, click yes to run.
 
 ## Unity interfaces
 The Unity interfaces come as a package. Ensure that you have a version of Unity 2020.3 or greater installed, as there are no guarantees this package will work with older versions. 
